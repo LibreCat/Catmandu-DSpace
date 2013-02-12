@@ -7,7 +7,5 @@ use Data::Dumper;
 
 my $dspace = DSpace->new(base_url => "http://localhost:8080/dspace-rest");
 
-my $collections = $dspace->collections;
-print Dumper($collections);
-my $collection = $dspace->collection(id => 1);
-print Dumper($collection);
+my $communities = $dspace->communities;
+print Dumper($communities);
