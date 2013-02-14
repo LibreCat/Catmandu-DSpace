@@ -4,7 +4,7 @@ use Data::Util qw(:validate :check);
 use Moo;
 use DSpace::Bitstream;
 
-with qw(DSpace::JSON DSpace::HashRef);
+with qw(DSpace::UnSerializable);
 
 has bitstreams => (
   is => 'ro',

@@ -3,9 +3,10 @@ use DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
 use DSpace::User;
+use DSpace::Metadata;
 
 extends qw(DSpace::Object);
-with qw(DSpace::JSON DSpace::HashRef);
+with qw(DSpace::UnSerializable);
 
 has collection => (is => 'ro',required => 1);
 has isArchived => (is => 'ro',required => 1);
@@ -23,12 +24,7 @@ has metadata => (
   isa => sub { 
     array_ref($_[0]); 
     for(@{ $_[0] }){
-      hash_ref($_);
-      for my $key(qw(element id qualifier schema value)){
-        if(!exists($_->{$key})){
-          die("metadata element has no key '$key'");
-        }
-      }
+      instance($_,"DSpace::Metadata");
     }
   },
   lazy => 1,
@@ -46,6 +42,10 @@ sub from_json {
 }
 sub from_hash_ref {
   my($class,$ref)=@_;
+  my @metadata = ();
+  for my $m(@{ $ref->{metadata} // [] }){
+    push @metadata,DSpace::Metadata->from_hash_ref($m);
+  }
   $class->new(
     id => $ref->{id},
     handle => $ref->{handle},
@@ -53,7 +53,7 @@ sub from_hash_ref {
     isArchived => ($ref->{isArchived} ? 1:0),
     isWithdrawn => ($ref->{isWithdrawn} ? 1:0), 
     lastModified => $ref->{lastModified},
-    metadata => $ref->{metadata},
+    metadata => \@metadata,
     collection => $ref->{collection}->{id},
     submitter => DSpace::User->from_hash_ref($ref->{submitter})
   );

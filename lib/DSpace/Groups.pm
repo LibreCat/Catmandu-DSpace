@@ -3,7 +3,7 @@ use DSpace::Sane;
 use Moo;
 use DSpace::Group;
 
-with qw(DSpace::JSON DSpace::HashRef);
+with qw(DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;

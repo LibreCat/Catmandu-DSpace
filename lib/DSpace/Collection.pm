@@ -4,7 +4,7 @@ use Data::Util qw(:validate :check);
 use Moo;
 
 extends qw(DSpace::Object);
-with qw(DSpace::JSON DSpace::HashRef);
+with qw(DSpace::UnSerializable);
 
 has shortDescription => (is => 'ro');
 has introductoryText => (is => 'ro');
@@ -22,11 +22,11 @@ has licence => (is => 'ro');
 has provenance => (is => 'ro');
 
 sub from_json {
-  my($class,$json) = @_;
-  $class->from_hash_ref(_from_json($json));
+  my($class,$json,$dspace) = @_;
+  $class->from_hash_ref(_from_json($json),$dspace);
 }
 sub from_hash_ref {
-  my($class,$ref)=@_;
+  my($class,$ref,$dspace)=@_;
   my @communities = ();
   for my $c(@{ $ref->{communities} || [] }){
     push @communities,$c->{id};
@@ -41,7 +41,7 @@ sub from_hash_ref {
     copyrightText => $ref->{copyrightText},
     communities => \@communities,
     licence => $ref->{licence},
-    provenance => $ref->{provenance}
+    provenance => $ref->{provenance},
   );
 }
 

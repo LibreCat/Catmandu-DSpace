@@ -1,4 +1,4 @@
-package DSpace::JSON;
+package DSpace::UnSerializable;
 use DSpace::Sane;
 use Moo::Role;
 use JSON qw();
@@ -12,6 +12,6 @@ sub _from_json {
   json()->decode($_[0]);
 }
 
-requires qw(from_json);
+requires qw(from_json from_hash_ref);
 
 1;

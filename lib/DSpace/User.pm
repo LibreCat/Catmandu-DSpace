@@ -3,7 +3,7 @@ use DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
 
-with qw(DSpace::JSON DSpace::HashRef);
+with qw(DSpace::UnSerializable);
 
 has canLogIn => (is => 'ro',required => 1);
 has email => (is => 'ro',required => 1);
