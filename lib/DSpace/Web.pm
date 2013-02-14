@@ -4,6 +4,7 @@ use Moo;
 use URI::Escape;
 use LWP::UserAgent;
 use Data::Util qw(:check);
+use JSON qw(encode_json decode_json);
 
 has base_url => (
   is => 'ro',
@@ -27,46 +28,75 @@ sub _validate_web_response {
   $res->is_error && confess($res->content);
 }
 sub _do_web_request {
-  my($self,$path,$params,$method)=@_;
-  $method = lc($method // "get");
+  my($self,%args)=@_;
+  $args{method} = lc($args{method} // "get");
+  $args{params} = is_hash_ref($args{params}) ? $args{params} : {};
+  $args{path} = $args{path} // "";
+  $args{content} = $args{content} // "";
+
   my $res;
-  given($method){
+  given($args{method}){
     when("get"){
-      $res = $self->_get($path,$params);
+      $res = $self->_get(%args);
     }
     when("post"){
-      $res = $self->_post($path,$params);
+      $res = $self->_post(%args);
     }
     when("put"){
-      $res = $self->_put($path,$params);
+      $res = $self->_put(%args);
     }
     when("delete"){
-      $res = $self->_delete($path,$params);
+      $res = $self->_delete(%args);
     }
     default {
-      confess "method '$method' not supported";
+      confess "method '$args{method}' not supported";
     }
   }
   _validate_web_response($res);
   $res;
 }
 sub _post {
-  my($self,$path,$data)=@_;
-  $self->_web->post($self->base_url().$path.".json",_construct_params_as_array($data));
+  my($self,%args)=@_;
+  my $url = $self->base_url().$args{path}.".json";
+  my $data;
+  if(defined($args{content})){
+    $data = encode_json($args{content});
+    $url .= "?" . _construct_query($args{params});
+  }else{
+    $data =  _construct_params_as_array($args{params});
+  }
+  $self->_web->post(
+    $url,
+    'Content-Type' => "application/json",
+    Content => $data
+  );
 }
 sub _put {
-  my($self,$path,$data)=@_;
-  $self->_web->put($self->base_url().$path.".json",_construct_params_as_array($data));
+  my($self,%args)=@_;
+  my $url = $self->base_url().$args{path}.".json";
+  my $data;
+  if(defined($args{content})){ 
+    $data = encode_json($args{content}); 
+    $url .= "?" . _construct_query($args{params});
+  }else{
+    $data =  _construct_params_as_array($args{params});
+  }
+
+  $self->_web->put(
+    $url,
+    'Content-Type' => "application/json",
+    Content => $data
+  );
 }
 sub _delete {
-  my($self,$path,$data)=@_;
-  my $query = _construct_query($data) || "";
-  $self->_web->post($self->base_url().$path.".json?$query");
+  my($self,%args)=@_;
+  my $query = _construct_query($args{params}) || "";
+  $self->_web->delete($self->base_url().$args{path}.".json?$query");
 }
 sub _get {
-  my($self,$path,$data)=@_;
-  my $query = _construct_query($data) || "";
-  $self->_web->get($self->base_url().$path.".json?$query");
+  my($self,%args)=@_;
+  my $query = _construct_query($args{params}) || "";
+  $self->_web->get($self->base_url().$args{path}.".json?$query");
 }
 sub _construct_query {
   my $data = shift;
