@@ -11,4 +11,4 @@ my $dspace = DSpace->new(
   password => "dspace"
 );
 
-$dspace->delete_community(id => 4);
+$dspace->delete_community(id => $_) for(qw(3));

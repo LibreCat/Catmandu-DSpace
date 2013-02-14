@@ -185,7 +185,7 @@ sub update_community {
   $self->_do_web_request(
     path => "/communities/$id",
     content => $community,
-    method => "post",
+    method => "put",
     params => \%args
   )->content();
 }

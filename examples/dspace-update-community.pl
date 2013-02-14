@@ -11,4 +11,7 @@ my $dspace = DSpace->new(
   password => "dspace"
 );
 
-$dspace->add_community(community => {name => "This is another cool community!"});
+$dspace->update_community(
+  id => 10,
+  community => {name => "This is another cool (changed) community!",shortDescription=>"described a little"}
+);
