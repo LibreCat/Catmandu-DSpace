@@ -152,15 +152,38 @@ sub groups {
 
 #edit methods
 sub add_community {
-  my($self,$community)=@_;
+  my($self,%args)=@_;
+
+  my $community = delete $args{community};
   hash_ref($community);
   is_string($community->{name}) or die("name is mandatory for new community");
  
-  my %args = (user => $self->username,pass => $self->password); 
-  
+  $args{user} = $self->username;
+  $args{pass} = $self->password;
+
   #return value: id of new community
   $self->_do_web_request(
     path => "/communities",
+    content => $community,
+    method => "post",
+    params => \%args
+  )->content();
+}
+sub update_community {
+  my($self,%args)=@_;
+
+  my $community = delete $args{community};
+  hash_ref($community);
+  is_string($community->{name}) or die("name is mandatory for new community");
+  
+  my $id = (delete $args{id}) // "";
+  is_string($id) or die("id is mandatory to delete community");
+
+  $args{user} = $self->username;
+  $args{pass} = $self->password;
+
+  $self->_do_web_request(
+    path => "/communities/$id",
     content => $community,
     method => "post",
     params => \%args
