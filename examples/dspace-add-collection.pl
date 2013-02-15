@@ -2,6 +2,7 @@
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Catmandu::DSpace;
+use open qw(:std :utf8);
 use Data::Dumper;
 
 my $dspace = Catmandu::DSpace->new(
@@ -10,5 +11,11 @@ my $dspace = Catmandu::DSpace->new(
   password => "dspace"
 );
 
-my $content_ref = $dspace->bitstream_download(id => 1);
-print $$content_ref;
+for(1 .. 4){
+  my $collection_id = $dspace->add_collection(
+    collection => {
+      name => "This is another cool collection of community 1, nr. $_!",
+      communityId => "1"
+    }
+  );
+}

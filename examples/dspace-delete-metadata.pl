@@ -2,7 +2,7 @@
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Catmandu::DSpace;
-use Data::Dumper;
+use open qw(:std :utf8);
 
 my $dspace = Catmandu::DSpace->new(
   base_url => "http://localhost:8080/dspace-rest",
@@ -10,5 +10,6 @@ my $dspace = Catmandu::DSpace->new(
   password => "dspace"
 );
 
-my $content_ref = $dspace->bitstream_download(id => 1);
-print $$content_ref;
+$dspace->delete_item_metadata(
+  id => 1,metadata_id => 144
+);
