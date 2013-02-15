@@ -1,10 +1,10 @@
-package DSpace::Group;
-use DSpace::Sane;
+package Catmandu::DSpace::Group;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
-use DSpace::Users;
+use Catmandu::DSpace::Users;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has groups => (
   is => 'ro',
@@ -40,7 +40,7 @@ sub from_hash_ref {
     name => $ref->{name},
     id => $ref->{id},
     groups => \@groups, 
-    users => DSpace::Users->from_hash_ref($ref),
+    users => Catmandu::DSpace::Users->from_hash_ref($ref),
   );
 }
 

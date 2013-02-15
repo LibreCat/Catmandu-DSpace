@@ -1,9 +1,9 @@
-package DSpace::Bitstream;
-use DSpace::Sane;
+package Catmandu::DSpace::Bitstream;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has id => (is => 'ro',required => 1);
 has name => (is => 'ro',required => 1);

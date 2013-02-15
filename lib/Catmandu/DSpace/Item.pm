@@ -1,12 +1,12 @@
-package DSpace::Item;
-use DSpace::Sane;
+package Catmandu::DSpace::Item;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
-use DSpace::User;
-use DSpace::Metadata;
+use Catmandu::DSpace::User;
+use Catmandu::DSpace::Metadata;
 
-extends qw(DSpace::Object);
-with qw(DSpace::UnSerializable);
+extends qw(Catmandu::DSpace::Object);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has collection => (is => 'ro',required => 1);
 has isArchived => (is => 'ro',required => 1);
@@ -24,7 +24,7 @@ has metadata => (
   isa => sub { 
     array_ref($_[0]); 
     for(@{ $_[0] }){
-      instance($_,"DSpace::Metadata");
+      instance($_,"Catmandu::DSpace::Metadata");
     }
   },
   lazy => 1,
@@ -32,7 +32,7 @@ has metadata => (
 );
 has submitter => (
   is => 'ro',
-  isa => sub { instance($_[0],"DSpace::User"); },
+  isa => sub { instance($_[0],"Catmandu::DSpace::User"); },
   required => 1
 );
 
@@ -44,7 +44,7 @@ sub from_hash_ref {
   my($class,$ref)=@_;
   my @metadata = ();
   for my $m(@{ $ref->{metadata} // [] }){
-    push @metadata,DSpace::Metadata->from_hash_ref($m);
+    push @metadata,Catmandu::DSpace::Metadata->from_hash_ref($m);
   }
   $class->new(
     id => $ref->{id},
@@ -55,7 +55,7 @@ sub from_hash_ref {
     lastModified => $ref->{lastModified},
     metadata => \@metadata,
     collection => $ref->{collection}->{id},
-    submitter => DSpace::User->from_hash_ref($ref->{submitter})
+    submitter => Catmandu::DSpace::User->from_hash_ref($ref->{submitter})
   );
 }
 

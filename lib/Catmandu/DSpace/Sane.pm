@@ -1,4 +1,4 @@
-package DSpace::Sane;
+package Catmandu::DSpace::Sane;
 use strict;
 use warnings;
 use 5.010;
@@ -20,11 +20,11 @@ sub import {
 
 =head1 NAME
 
-Catmandu::AlephX::Sane - Sensible package boilerplate, copy of Catmandu::Sane
+Catmandu::DSpace::Sane - Sensible package boilerplate, copy of Catmandu::Sane
 
 =head1 SYNOPSIS
 
-    use Catmandu::AlephX::Sane;
+    use Catmandu::DSpace::Sane;
 
 =head1 DESCRIPTION
 

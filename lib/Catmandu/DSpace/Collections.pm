@@ -1,9 +1,9 @@
-package DSpace::Collections;
-use DSpace::Sane;
+package Catmandu::DSpace::Collections;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::Collection;
+use Catmandu::DSpace::Collection;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @collections = ();
   for my $collection(@{ $ref->{collections} || [] }){
-    push @collections,DSpace::Collection->from_hash_ref($collection);
+    push @collections,Catmandu::DSpace::Collection->from_hash_ref($collection);
   }
 
   \@collections;

@@ -1,17 +1,17 @@
-package DSpace::Bundle;
-use DSpace::Sane;
+package Catmandu::DSpace::Bundle;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
-use DSpace::Bitstream;
+use Catmandu::DSpace::Bitstream;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has bitstreams => (
   is => 'ro',
   isa => sub {
     my $array = shift;
     array_ref($array);
-    instance($_,"DSpace::Bitstream") for(@$array);
+    instance($_,"Catmandu::DSpace::Bitstream") for(@$array);
   },
   required => 1
 );
@@ -30,7 +30,7 @@ sub from_hash_ref {
 
   my @bitstreams = ();
   for my $bitstream(@{ $ref->{bitstreams} // [] }){
-    push @bitstreams,DSpace::Bitstream->from_hash_ref($bitstream);   
+    push @bitstreams,Catmandu::DSpace::Bitstream->from_hash_ref($bitstream);   
   }
   $args{'bitstreams'} = \@bitstreams;
 

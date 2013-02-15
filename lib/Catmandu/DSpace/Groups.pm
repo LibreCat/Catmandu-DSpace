@@ -1,9 +1,9 @@
-package DSpace::Groups;
-use DSpace::Sane;
+package Catmandu::DSpace::Groups;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::Group;
+use Catmandu::DSpace::Group;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @groups = ();
   for my $group(@{ $ref->{groups} || [] }){
-    push @groups,DSpace::Group->from_hash_ref($group);
+    push @groups,Catmandu::DSpace::Group->from_hash_ref($group);
   }
 
   \@groups;

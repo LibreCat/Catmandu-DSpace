@@ -1,4 +1,4 @@
-package DSpace::Object;
+package Catmandu::DSpace::Object;
 use Moo;
 use Data::Util qw(:validate :check);
 

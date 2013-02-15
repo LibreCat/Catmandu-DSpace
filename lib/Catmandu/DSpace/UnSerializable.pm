@@ -1,5 +1,5 @@
-package DSpace::UnSerializable;
-use DSpace::Sane;
+package Catmandu::DSpace::UnSerializable;
+use Catmandu::DSpace::Sane;
 use Moo::Role;
 use JSON qw();
 

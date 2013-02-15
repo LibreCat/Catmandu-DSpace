@@ -1,9 +1,9 @@
-package DSpace::Bundles;
-use DSpace::Sane;
+package Catmandu::DSpace::Bundles;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::Bundle;
+use Catmandu::DSpace::Bundle;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @bundles = ();
   for my $bundle(@$ref){
-    push @bundles,DSpace::Bundle->from_hash_ref($bundle);
+    push @bundles,Catmandu::DSpace::Bundle->from_hash_ref($bundle);
   }
 
   \@bundles;

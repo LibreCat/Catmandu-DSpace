@@ -1,9 +1,9 @@
-package DSpace::Users;
-use DSpace::Sane;
+package Catmandu::DSpace::Users;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::User;
+use Catmandu::DSpace::User;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @users = ();
   for my $user(@{ $ref->{users} || [] }){
-    push @users,DSpace::User->from_hash_ref($user);
+    push @users,Catmandu::DSpace::User->from_hash_ref($user);
   }
 
   \@users;

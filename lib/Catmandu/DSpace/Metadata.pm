@@ -1,7 +1,7 @@
-package DSpace::Metadata;
+package Catmandu::DSpace::Metadata;
 use Moo;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has id => (is => 'ro',required => 1);
 has element => (is => 'ro',required => 1);

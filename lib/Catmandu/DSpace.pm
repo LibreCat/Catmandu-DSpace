@@ -1,25 +1,25 @@
-package DSpace;
-use DSpace::Sane;
+package Catmandu::DSpace;
+use Catmandu::DSpace::Sane;
 use Moo;
 use JSON qw(encode_json decode_json);
 use Data::Util qw(:check :validate);
 
-use DSpace::Community;
-use DSpace::Communities;
-use DSpace::Collection;
-use DSpace::Collections;
-use DSpace::User;
-use DSpace::Users;
-use DSpace::Group;
-use DSpace::Groups;
-use DSpace::Item;
-use DSpace::Items;
-use DSpace::Bitstream;
-use DSpace::MetadataFields;
-use DSpace::Bundles;
-use DSpace::Harvest;
+use Catmandu::DSpace::Community;
+use Catmandu::DSpace::Communities;
+use Catmandu::DSpace::Collection;
+use Catmandu::DSpace::Collections;
+use Catmandu::DSpace::User;
+use Catmandu::DSpace::Users;
+use Catmandu::DSpace::Group;
+use Catmandu::DSpace::Groups;
+use Catmandu::DSpace::Item;
+use Catmandu::DSpace::Items;
+use Catmandu::DSpace::Bitstream;
+use Catmandu::DSpace::MetadataFields;
+use Catmandu::DSpace::Bundles;
+use Catmandu::DSpace::Harvest;
 
-extends qw(DSpace::Web);
+extends qw(Catmandu::DSpace::Web);
 
 #reader methods
 sub community {
@@ -30,13 +30,13 @@ sub community {
   $args{$_} = "true" for(qw(parents children collections));
   $args{trim} = "false";
   my $content = $self->_do_web_request(path => "/communities/$id",params => \%args,method => "get")->content();
-  DSpace::Community->from_json($content);
+  Catmandu::DSpace::Community->from_json($content);
 }
 sub communities {
   my($self,%args) = @_;
   $args{trim} = "false";
   my $content = $self->_do_web_request(path => "/communities",params => \%args,method => "get")->content();
-  DSpace::Communities->from_json($content);
+  Catmandu::DSpace::Communities->from_json($content);
 }
 sub collection {
   my($self,%args)=@_;
@@ -45,7 +45,7 @@ sub collection {
 
   $args{trim} = "false";
   my $content = $self->_do_web_request(path => "/collections/$id",params => \%args,method => "get")->content();
-  DSpace::Collection->from_json($content);
+  Catmandu::DSpace::Collection->from_json($content);
 }
 sub collection_items {
   my($self,%args)=@_;
@@ -56,7 +56,7 @@ sub collection_items {
   my $array_items = decode_json($content);
   my @items;
   for my $item(@$array_items){
-    push @items,DSpace::Item->from_hash_ref($item);
+    push @items,Catmandu::DSpace::Item->from_hash_ref($item);
   }
   \@items;
 }
@@ -64,7 +64,7 @@ sub collections {
   my($self,%args) = @_;
   $args{trim} = "false";
   my $content = $self->_do_web_request(path => "/collections",params => \%args,method => "get")->content();
-  DSpace::Collections->from_json($content);
+  Catmandu::DSpace::Collections->from_json($content);
 }
 
 sub item {
@@ -73,17 +73,17 @@ sub item {
   is_string($id) or confess("no id given for item");
 
   my $content = $self->_do_web_request(path => "/items/$id",params => \%args,method => "get")->content();
-  DSpace::Item->from_json($content);
+  Catmandu::DSpace::Item->from_json($content);
 }
 sub items {
   my($self,%args) = @_;
   my $content = $self->_do_web_request(path => "/items",params => \%args,method => "get")->content();
-  DSpace::Items->from_json($content);
+  Catmandu::DSpace::Items->from_json($content);
 }
 sub items_metadatafields {
   my $self = shift;
   my $content = $self->_do_web_request(path => "/items/metadatafields",method => "get")->content();
-  DSpace::MetadataFields->from_json($content);
+  Catmandu::DSpace::MetadataFields->from_json($content);
 }
 sub item_bundles {
   my($self,%args)=@_; 
@@ -91,7 +91,7 @@ sub item_bundles {
   is_string($id) or confess("no id given for item");
 
   my $content = $self->_do_web_request(path => "/items/$id/bundles",params => \%args,method => "get")->content();
-  DSpace::Bundles->from_json($content);  
+  Catmandu::DSpace::Bundles->from_json($content);  
 }
 sub bitstream {
   my($self,%args)=@_;  
@@ -99,7 +99,7 @@ sub bitstream {
   is_string($id) or confess("no id given for bitstream");
 
   my $content = $self->_do_web_request(path => "/bitstreams/$id",params => \%args,method => "get")->content();
-  DSpace::Bitstream->from_json($content);
+  Catmandu::DSpace::Bitstream->from_json($content);
 }
 sub bitstream_download {
   my($self,%args)=@_;  
@@ -111,7 +111,7 @@ sub bitstream_download {
 sub harvest {
   my($self,%args)=@_;  
   my $content = $self->_do_web_request(path => "/harvest",params => \%args,method => "get")->content();
-  DSpace::Harvest->from_json($content);
+  Catmandu::DSpace::Harvest->from_json($content);
 }
 
 sub user {
@@ -122,14 +122,14 @@ sub user {
   $args{user} = $self->username;
   $args{pass} = $self->password;
   my $content = $self->_do_web_request(path => "/users/$id",params => \%args)->content();
-  DSpace::User->from_json($content);
+  Catmandu::DSpace::User->from_json($content);
 }
 sub users {
   my($self,%args) = @_;
   $args{user} = $self->username;
   $args{pass} = $self->password;
   my $content = $self->_do_web_request(path => "/users",params => \%args)->content();
-  DSpace::Users->from_json($content);
+  Catmandu::DSpace::Users->from_json($content);
 }
 sub group {
   my($self,%args)=@_;
@@ -139,14 +139,14 @@ sub group {
   $args{user} = $self->username;
   $args{pass} = $self->password;
   my $content = $self->_do_web_request(path => "/groups/$id",params => \%args)->content();
-  DSpace::Group->from_json($content);
+  Catmandu::DSpace::Group->from_json($content);
 }
 sub groups {
   my($self,%args) = @_;
   $args{user} = $self->username;
   $args{pass} = $self->password;
   my $content = $self->_do_web_request(path => "/groups",params => \%args)->content();
-  DSpace::Groups->from_json($content);
+  Catmandu::DSpace::Groups->from_json($content);
 }
 
 

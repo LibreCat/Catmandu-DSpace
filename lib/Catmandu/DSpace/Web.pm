@@ -1,5 +1,5 @@
-package DSpace::Web;
-use DSpace::Sane;
+package Catmandu::DSpace::Web;
+use Catmandu::DSpace::Sane;
 use Moo;
 use URI::Escape;
 use LWP::UserAgent;

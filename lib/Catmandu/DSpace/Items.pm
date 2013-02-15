@@ -1,9 +1,9 @@
-package DSpace::Items;
-use DSpace::Sane;
+package Catmandu::DSpace::Items;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::Item;
+use Catmandu::DSpace::Item;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json,$dspace) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @items = ();
   for my $item(@{ $ref->{items} || [] }){
-    push @items,DSpace::Item->from_hash_ref($item,$dspace);
+    push @items,Catmandu::DSpace::Item->from_hash_ref($item,$dspace);
   }
 
   \@items;

@@ -1,11 +1,11 @@
-package DSpace::Community;
-use DSpace::Sane;
+package Catmandu::DSpace::Community;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
-use DSpace::Collection;
+use Catmandu::DSpace::Collection;
 
-extends qw(DSpace::Object);
-with qw(DSpace::UnSerializable);
+extends qw(Catmandu::DSpace::Object);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has shortDescription => (is => 'ro');
 has introductoryText => (is => 'ro');
@@ -16,7 +16,7 @@ has collections => (
   isa => sub { 
     array_ref($_[0]); 
     for(@{ $_[0] }){
-      instance($_,"DSpace::Collection");
+      instance($_,"Catmandu::DSpace::Collection");
     }
   },
   lazy => 1,
@@ -26,8 +26,8 @@ has parentCommunity => (
   is => 'ro',
   isa => sub {
     my $ref = $_[0];
-    #moet ofwel undefined zijn, ofwel DSpace::Community
-    defined($ref) && instance($ref,"DSpace::Community");
+    #moet ofwel undefined zijn, ofwel Catmandu::DSpace::Community
+    defined($ref) && instance($ref,"Catmandu::DSpace::Community");
   }
 );
 has subCommunities => (
@@ -35,7 +35,7 @@ has subCommunities => (
   isa => sub {
     array_ref($_[0]); 
     for(@{ $_[0] }){
-      instance($_,"DSpace::Community");
+      instance($_,"Catmandu::DSpace::Community");
     }
   },
   lazy => 1,
@@ -55,7 +55,7 @@ sub from_hash_ref {
   }
   my @collections = ();
   for my $c(@{ $ref->{collections} || [] }){
-    push @collections,DSpace::Collection->from_hash_ref($c);
+    push @collections,Catmandu::DSpace::Collection->from_hash_ref($c);
   }
   $class->new(
     id => $ref->{id},

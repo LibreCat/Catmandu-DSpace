@@ -1,9 +1,9 @@
-package DSpace::Communities;
-use DSpace::Sane;
+package Catmandu::DSpace::Communities;
+use Catmandu::DSpace::Sane;
 use Moo;
-use DSpace::Community;
+use Catmandu::DSpace::Community;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 sub from_json {
   my($class,$json) = @_;
@@ -14,7 +14,7 @@ sub from_hash_ref {
 
   my @communities = ();
   for my $community(@{ $ref->{communities} || [] }){
-    push @communities,DSpace::Community->from_hash_ref($community);
+    push @communities,Catmandu::DSpace::Community->from_hash_ref($community);
   }
 
   \@communities;

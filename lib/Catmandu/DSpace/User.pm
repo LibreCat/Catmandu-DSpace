@@ -1,9 +1,9 @@
-package DSpace::User;
-use DSpace::Sane;
+package Catmandu::DSpace::User;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has canLogIn => (is => 'ro',required => 1);
 has email => (is => 'ro',required => 1);

@@ -1,10 +1,10 @@
-package DSpace::Harvest;
-use DSpace::Sane;
+package Catmandu::DSpace::Harvest;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
-use DSpace::Item;
+use Catmandu::DSpace::Item;
 
-with qw(DSpace::UnSerializable);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has id => (is => 'ro',required => 1);
 has name => (is => 'ro',required => 1);
@@ -21,7 +21,7 @@ has items => (
   isa => sub {
     my $array = shift;
     array_ref($array);
-    instance($_,"DSpace::Item") for(@$array);
+    instance($_,"Catmandu::DSpace::Item") for(@$array);
   },
   required => 1
 );
@@ -36,7 +36,7 @@ sub from_hash_ref {
   $args{$_} = $ref->{harvest}->[0]->{$_} for(qw(id name resultsCount));
   my @items;
   for(my $i = 1;$i < scalar(@{ $ref->{harvest} });$i++){
-    push @items,DSpace::Item->from_hash_ref($ref->{harvest}->[$i]);
+    push @items,Catmandu::DSpace::Item->from_hash_ref($ref->{harvest}->[$i]);
   }
   $args{items} = \@items;
   $class->new(%args);

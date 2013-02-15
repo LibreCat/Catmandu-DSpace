@@ -1,10 +1,10 @@
-package DSpace::Collection;
-use DSpace::Sane;
+package Catmandu::DSpace::Collection;
+use Catmandu::DSpace::Sane;
 use Data::Util qw(:validate :check);
 use Moo;
 
-extends qw(DSpace::Object);
-with qw(DSpace::UnSerializable);
+extends qw(Catmandu::DSpace::Object);
+with qw(Catmandu::DSpace::UnSerializable);
 
 has shortDescription => (is => 'ro');
 has introductoryText => (is => 'ro');
