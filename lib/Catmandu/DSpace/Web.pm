@@ -98,7 +98,6 @@ sub _get {
   my $query = _construct_query($args{params}) || "";
   my %headers;
   $headers{':content_cb'} = $args{callback} if is_code_ref($args{callback});
-  say STDERR $self->base_url().$args{path}.".json?$query";
   $self->_web->get($self->base_url().$args{path}.".json?$query",%headers);
 }
 sub _construct_query {

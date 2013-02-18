@@ -19,7 +19,7 @@ is_string($file) && -d dirname($file) || die("cannot write to file");
 open my $fh,">:raw",$file or die($!);
 
 $dspace->bitstream_download(
-  id => 100,
+  id => 1,
   callback => sub {
     print $fh $_[0];
   }
